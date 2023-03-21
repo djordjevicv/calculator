@@ -1,2 +1,2 @@
-# calculator
-Simple calculator app for basic math functions.
+# Pastel calculator
+Calculator app for basic math functions.
