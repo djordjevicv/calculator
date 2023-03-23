@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="calculator">
+        <div id="display">
+            <div></div>
+            <span></span>
+        </div>
+        <div id="buttons">
+            <button id="allClear">AC</button>
+            <button id="clear">C</button>
+            <button id="remainder" class="operation" data-value="%">%</button>
+            <button id="divide" class="operation" data-value="/">÷</button>
+            <button id="digit-7" data-value="7">7</button>
+            <button id="digit-8" data-value="8">8</button>
+            <button id="digit-9" data-value="9">9</button>
+            <button id="plus" class="operation" data-value="+">+</button>
+            <button id="digit-4" data-value="4">4</button>
+            <button id="digit-5" data-value="5">5</button>
+            <button id="digit-6" data-value="6">6</button>
+            <button id="minus" class="operation" data-value="-">-</button>
+            <button id="digit-1" data-value="1">1</button>
+            <button id="digit-2" data-value="2">2</button>
+            <button id="digit-3" data-value="3">3</button>
+            <button id="multiply" class="operation" data-value="*">x</button>
+            <button id="digit-0" data-value="0">0</button>
+            <button id="decimalPoint" data-value=".">.</button>
+            <button id="equals">=</button>
+        </div>
+    </div>
+    <footer>
+        <p class="footerText">Copyright © 2023 djordjevicv</p>
+        <a href="https://github.com/djordjevicv" target="_blank"><i class="fab fa-github"></i></a>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

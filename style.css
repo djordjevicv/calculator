@@ -1,0 +1,123 @@
+:root {
+    --background: #FFF2F2;
+    --calculatorBackground: #8EA7E9;
+    --displayBackground: #7286D3;
+    --buttonBackground: #E5E0FF;
+}
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    position: relative;
+    box-sizing: border-box;
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    background: var(--background);
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator {
+    min-width: 350px;
+    height: 500px;
+    border-radius: 10px;
+    background: var(--calculatorBackground);
+    box-shadow: 1px 1px 5px black;
+}
+
+#display {
+    width: 80%;
+    height: 15%;
+    margin: 0 auto;
+    margin-top: 15%;
+    background: var(--displayBackground);
+    filter: brightness(1.5);
+    box-shadow: inset 1px 1px 5px black;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: relative;
+}
+
+#display div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 20px;
+}
+
+#display span {
+    padding: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+#buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 60%;
+    grid-gap: 0.5rem;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+button {
+    background: var(--buttonBackground);
+    border: 1px black;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    transition: all 0.2s;
+}
+
+button:hover,
+.active {
+    transform: scale(0.95);
+    filter: brightness(0.9);
+
+}
+
+#equals {
+    grid-column: 3 / span 2;
+}
+
+footer {
+    font-size: 20px;
+    text-align: center;
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+}
+
+footer a {
+    color: var(--text);
+    font-size: 30px;
+    transition: all 0.5s;
+    margin-left: 5px;
+}
+
+footer a:hover {
+    transform: rotateY(360deg) rotateZ(45deg);
+}
