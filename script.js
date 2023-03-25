@@ -9,27 +9,29 @@ numbers = Array.from(document.querySelectorAll(`[id*="digit"]`));
 
 displayText = document.querySelector("#display span");
 displayDiv = document.querySelector("#display div");
+
+
 //FUNCTIONS
-function getOperatorButton(workingOperator) {
+function getOperatorButton(someOperator) {
     for (let i = 0; i < operators.length; i++) {
-        if (operators[i].dataset.value === workingOperator) {
+        if (operators[i].dataset.value === someOperator) {
             return operators[i];
         }
     }
 }
-function populateDisplay(workingOperator) {
-    displayDiv.textContent = `${a} ${workingOperator} ${b}`
+function populateDisplay(someOperator) { //handles upper-left part of calculator display
+    displayDiv.textContent = `${a} ${someOperator} ${b}`
 }
-function operate(a, b, operator) {
+function operate(a, b, someOperator) {
     let af = Number(a);
     let bf = Number(b);
-    switch (operator) {
+    switch (someOperator) {
         case "%":
             return af % bf;
         case "*":
             return af * bf;
         case "/":
-            return (af / bf).toFixed(2);
+            return af % bf === 0 ? (af / bf) : (af / bf).toFixed(2);
         case "+":
             return af + bf;
         case "-":
@@ -38,81 +40,78 @@ function operate(a, b, operator) {
             return;
     }
 }
-function handleOperator(e) {
-   /**/if (!aCheck) {
-        aCheck = true;
-        e.target.classList.add("active");
-    }
-    else if (aCheck) bCheck = true;
-    if (aCheck && bCheck) {
-        console.table(a, b);
-        a = String(operate(a, b, operator));
-        displayText.textContent = a;
-        bCheck = false;
-        b = '';
-        previousOperator.classList.remove("active");
-        this.classList.add("active");
-    }
-    operator = this.dataset.value;
-    previousOperator = this;
-    populateDisplay();
-
-}
 function handleOperators(e) {
     operator = e.target.dataset.value != undefined ? e.target.dataset.value : e.key;
+    //both keyboard and button clicks are valid
 
     if (!aCheck && a != '') { //input of the first number is done
         aCheck = true;
-        let workingOperator = operator;
+        workingOperator = operator;
         getOperatorButton(workingOperator).classList.add("active");
         populateDisplay(workingOperator);
     }
-    else if (aCheck && b === '') {
-        console.log("uspeh")
+    else if (aCheck && b === '') { //handling cases like '2 +' -> '2 -'
         workingOperator = operator;
         getOperatorButton(previousOperator).classList.remove("active");
         getOperatorButton(workingOperator).classList.add("active");
         populateDisplay(workingOperator);
     }
-    if (aCheck && !bCheck && operator != '') { //input for the second number is done
+    else if (aCheck && !bCheck && operator != '') { //input for the second number is done
         bCheck = true;
-    }
-    if (aCheck && bCheck) { //result of the calculation becomes first number, last-clicked operator becomes 'workingOperator'
-        a = String(operate(a, b, operator));
+        // in this case i am using 'workingOperator for calculation, and setting up `operator` as the new `workingOperator`
+        a = operate(a, b, workingOperator);
         displayText.textContent = a;
-        bCheck = false;
         b = '';
+        bCheck = false;
+        getOperatorButton(workingOperator).classList.remove("active");
+        workingOperator = operator;
+        getOperatorButton(workingOperator).classList.add("active");
+        populateDisplay(workingOperator);
     }
     previousOperator = operator;
+    operator = '';
 }
 function getResult() {
-
-    if (aCheck) bCheck = true;
-    if (aCheck && bCheck) {
-        console.table(a, b);
-        a = String(operate(a, b, operator));
+    if (aCheck && !bCheck && b != '' && previousOperator != '') { //input for the second number is done
+        bCheck = true;
+        //i am using 'workingOperator for calculation, 
+        //setting up`operator` as the new `workingOperator,
+        //and result of the calculation as `a` once the calculation is over
+        if (workingOperator === '/' && b === "0") {
+            alert("Diving by 0 is illegal");
+            b = '';
+            bCheck = false;
+            populateDisplay(workingOperator);
+            displayText.textContent = b;
+            return;
+        }
+        a = operate(a, b, workingOperator);
         displayText.textContent = a;
-        bCheck = false;
         b = '';
-        previousOperator.classList.remove("active");
+        bCheck = false;
+        getOperatorButton(workingOperator).classList.remove("active");
+        workingOperator = ''
+        populateDisplay(workingOperator);
     }
-    displayDiv.textContent = `${a} ${operator} ${b}`
 }
 function handleNumbers(e) {
     if (!aCheck) {
         a = concatToNumber(e, a);
         displayText.textContent = a;
     }
-    else {
+    else if (workingOperator != '') {
         displayText.textContent = '';
         b = concatToNumber(e, b);
         displayText.textContent = b;
     }
-    displayDiv.textContent = `${a} ${operator} ${b}`
+    populateDisplay(workingOperator);
 }
 function concatToNumber(e, number) {
     const extraPart = e.target.dataset.value != undefined ? e.target.dataset.value : e.key;
-    if (extraPart === '.' && !number.includes(".")) {
+    //both keyboard and button clicks are valid
+
+    if (extraPart === '.' && !number.includes(".")) {   //to make sure the string that represents the 
+        //number has only one decimal point
         number = number + extraPart;
     }
     else if (extraPart != '.') {
@@ -126,23 +125,36 @@ function clearAll() {
     b = '';
     aCheck = false;
     bCheck = false;
-    operator.classList.remove("active");
-    previousOperator.classList.remove("active");
-    operator = '';
+    getOperatorButton(workingOperator) != undefined ?
+        getOperatorButton(workingOperator).classList.remove("active") :
+        getOperatorButton(previousOperator).classList.remove("active");
+
+    workingOperator = '';
     previousOperator = '';
+    populateDisplay(workingOperator);
     displayText.textContent = '';
-    displayDiv.textContent = `${a} ${operator} ${b}`
 }
-function clear() {
-
+function clear() { //to undo number typing typos
+    if (!aCheck && a != '') {
+        a = removeEnd(a);
+        populateDisplay(workingOperator);
+        displayText.textContent = a;
+    }
+    else if (!bCheck && b != '') {
+        b = removeEnd(b);
+        populateDisplay(workingOperator);
+        displayText.textContent = b;
+    }
 }
-function handleOperators1() {
-
+function removeEnd(string) {
+    const Length = string.length;
+    string = string.substring(0, Length - 1);
+    return string;
 }
 
 
 //EVENT LISTENERS AND GLOBAL VARIABLES
-let a = '', b = '', operator = '', previousOperator = '';
+let a = '', b = '', operator = '', previousOperator = '', workingOperator = '';
 let aCheck = false;
 let bCheck = false;
 

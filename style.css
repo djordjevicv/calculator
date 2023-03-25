@@ -34,7 +34,7 @@ body {
 }
 
 .calculator {
-    min-width: 350px;
+    width: 320px;
     height: 500px;
     border-radius: 10px;
     background: var(--calculatorBackground);
@@ -100,7 +100,6 @@ button:hover,
 footer {
     font-size: 20px;
     text-align: center;
-    color: var(--text);
     font-family: inherit;
     font-weight: 500;
     display: flex;
@@ -112,7 +111,6 @@ footer {
 }
 
 footer a {
-    color: var(--text);
     font-size: 30px;
     transition: all 0.5s;
     margin-left: 5px;
@@ -120,4 +118,13 @@ footer a {
 
 footer a:hover {
     transform: rotateY(360deg) rotateZ(45deg);
+}
+
+@media only screen and (max-width: 365px) {
+    footer{
+        font-size: 15px;
+    }
+    footer a{
+        font-size: 25px;
+    }
 }
